@@ -84,7 +84,7 @@ class Processor:
 
         """
 
-        alpha = re.compile(r'[a-z]')
+        alpha = re.compile(r'[A-Z]|[a-z]')
         return len(alpha.findall(self.text))
 
     def count_numeric(self):
@@ -95,7 +95,7 @@ class Processor:
 
         """
 
-        alpha = re.compile(r'[1-9]')
+        alpha = re.compile(r'[0-9]')
         return len(alpha.findall(self.text))
 
     def count_vowels(self):
@@ -105,8 +105,8 @@ class Processor:
         :return: Number of vowels
 
         """
-
-        vowels = re.compile(r'[aeou]', re.IGNORECASE)
+        # Bug here
+        vowels = re.compile(r'[aeiou]', re.IGNORECASE)
         return len(vowels.findall(self.text))
 
     def is_phonenumber(self):
@@ -117,7 +117,8 @@ class Processor:
 
         """
 
-        phonenum = re.compile(r'^[1-9]{3}([\-.])*[1-9]{3}\1*[1-9]{3}$')
+        # There was a bug in this Regexp, as was revealed by my test!!!
+        phonenum = re.compile(r'^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$')
         if phonenum.match(self.text) is None:
             return False
         else:
